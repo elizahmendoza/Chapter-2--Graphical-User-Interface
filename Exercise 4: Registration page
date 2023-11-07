@@ -1,0 +1,101 @@
+import tkinter as tk
+from tkinter import ttk
+from tkinter import PhotoImage
+
+def submit():
+    # Get values from the form
+    name = name_entry.get()
+    number = number_entry.get()
+    email = email_entry.get()
+    address = address_entry.get()
+    gender = gender_var.get()
+    course = course_var.get()
+    languages = [lang_var.get() for lang_var in language_vars]
+    communication_rating = communication_scale.get()
+
+    # Print the form data (you can save it or process it as needed)
+    print(f"Name: {name}")
+    print(f"Number: {number}")
+    print(f"Email: {email}")
+    print(f"Address: {address}")
+    print(f"Gender: {gender}")
+    print(f"Course: {course}")
+    print(f"Languages: {', '.join(languages)}")
+    print(f"Communication Rating: {communication_rating}")
+
+def clear():
+    # Clear the form
+    name_entry.delete(0, tk.END)
+    number_entry.delete(0, tk.END)
+    email_entry.delete(0, tk.END)
+    address_entry.delete(0, tk.END)
+    gender_var.set("")
+    course_var.set("")
+    for lang_var in language_vars:
+        lang_var.set(False)
+    communication_scale.set(0)
+
+# Create the main window
+root = tk.Tk()
+root.title("Student Management System")
+
+# Create and set up the registration form
+form_frame = ttk.Frame(root)
+form_frame.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
+
+# Header
+header_label = ttk.Label(form_frame, text="Student Management System", font=("Arial", 16))
+header_label.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+
+label_1 = ttk.Label(form_frame, text="New Student Registration", font=("Arial", 10))
+label_1.grid(row=1, column=0, columnspan=2, padx=10, pady=5)
+
+# Labels and Entry boxes
+labels = ["Student Name:", "Mobile Number:", "Email ID:", "Home Address:"]
+entry_vars = [tk.StringVar() for _ in range(4)]
+for i, label_text in enumerate(labels):
+    label = ttk.Label(form_frame, text=label_text)
+    label.grid(row=i+2, column=0, padx=10, pady=5)
+    entry = ttk.Entry(form_frame, textvariable=entry_vars[i])
+    entry.grid(row=i+2, column=1, padx=10, pady=5)
+
+# Gender Dropdown
+gender_label = ttk.Label(form_frame, text="Gender:")
+gender_label.grid(row=5, column=0, padx=10, pady=5)
+gender_var = tk.StringVar()
+gender_combobox = ttk.Combobox(form_frame, textvariable=gender_var, values=["Male", "Female", "Other"])
+gender_combobox.grid(row=5, column=1, padx=10, pady=5)
+
+# Courses Radiobuttons
+course_label = ttk.Label(form_frame, text="Courses Enrolled:")
+course_label.grid(row=6, column=0, padx=10, pady=5)
+course_var = tk.StringVar()
+course_var.set("None")
+courses = ["BSc CC", "BSc CY", "BSc PSY", "BA & BM"]
+for i, course in enumerate(courses):
+    course_radio = ttk.Radiobutton(form_frame, text=course, variable=course_var, value=course)
+    course_radio.grid(row=6+i, column=1, padx=10, pady=2)
+
+# Language Checkboxes
+language_label = ttk.Label(form_frame, text="Languages Known:")
+language_label.grid(row=10, column=0, padx=10, pady=5)
+language_vars = [tk.BooleanVar() for _ in range(3)]
+languages = ["English", "Tagalog", "Hindi/Urdu"]
+for i, language in enumerate(languages):
+    language_check = ttk.Checkbutton(form_frame, text=language, variable=language_vars[i])
+    language_check.grid(row=10+i, column=1, padx=10, pady=2)
+
+# Communication Skills Slider
+communication_label = ttk.Label(form_frame, text="Rate your English Communication Skills:")
+communication_label.grid(row=13, column=0, columnspan=2, padx=10, pady=5)
+communication_scale = ttk.Scale(form_frame, from_=0, to=10, orient="horizontal")
+communication_scale.grid(row=14, column=0, columnspan=2, padx=10, pady=5)
+
+# Submit and Clear Buttons
+submit_button = ttk.Button(form_frame, text="Submit", command=submit, padding=10, width=15)
+submit_button.grid(row=15, column=0, padx=10, pady=10)
+clear_button = ttk.Button(form_frame, text="Clear", command=clear, padding=10, width=15)
+clear_button.grid(row=15, column=1, padx=10, pady=10)
+
+
+root.mainloop()
